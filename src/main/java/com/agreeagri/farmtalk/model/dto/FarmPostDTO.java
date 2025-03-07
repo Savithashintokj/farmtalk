@@ -4,8 +4,15 @@ import lombok.Data;
 
 import java.util.UUID;
 
-@Data
 public class FarmPostDTO {
+
+    private UUID postId;
+    private Long userId;  // We use Long here to store user ID, and will later map it to the UserAccount entity.
+    private String title;
+    private String details;
+    private String photo;
+    private Integer likesCount;
+    private Boolean deleted;
 
     public UUID getPostId() {
         return postId;
@@ -15,11 +22,11 @@ public class FarmPostDTO {
         this.postId = postId;
     }
 
-    public int getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -47,46 +54,20 @@ public class FarmPostDTO {
         this.photo = photo;
     }
 
-    public int getLikesCount() {
+    public Integer getLikesCount() {
         return likesCount;
     }
 
-    public void setLikesCount(int likesCount) {
+    public void setLikesCount(Integer likesCount) {
         this.likesCount = likesCount;
     }
 
-    public boolean isDeleted() {
+    public Boolean getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
     }
-
-    public String getCreatedTimestamp() {
-        return createdTimestamp;
-    }
-
-    public void setCreatedTimestamp(String createdTimestamp) {
-        this.createdTimestamp = createdTimestamp;
-    }
-
-    public String getUpdateTimestamp() {
-        return updateTimestamp;
-    }
-
-    public void setUpdateTimestamp(String updateTimestamp) {
-        this.updateTimestamp = updateTimestamp;
-    }
-
-    private UUID postId;
-    private int userId;
-    private String title;
-    private String details;
-    private String photo;
-    private int likesCount;
-    private boolean deleted;
-    private String createdTimestamp;
-    private String updateTimestamp;
-
+    // Getters and Setters
 }

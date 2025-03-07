@@ -1,9 +1,6 @@
 package com.agreeagri.farmtalk.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
-
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -11,11 +8,59 @@ import java.time.LocalDateTime;
 @Table(name = "useraccount")
 public class UserAccount {
 
-    public int getUserId() {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_account_seq")
+    @SequenceGenerator(name = "user_account_seq", sequenceName = "user_account_seq", allocationSize = 1)
+    @Column(name = "USER_ID")
+    private Long userId;
+
+    @Column(name = "FIRST_NAME", nullable = false)
+    private String firstName;
+
+    @Column(name = "LAST_NAME")
+    private String lastName;
+
+    @Column(name = "ID_NUMBER")
+    private String idNumber;
+
+    @Column(name = "EMAIL")
+    private String email;
+
+    @Column(name = "MOBILE")
+    private String mobile;
+
+    @Column(name = "ADDRESS_LINE1")
+    private String addressLine1;
+
+    @Column(name = "ADDRESS_LINE2")
+    private String addressLine2;
+
+    @Column(name = "TOWN")
+    private String town;
+
+    @Column(name = "POSTCODE")
+    private String postcode;
+
+    @Column(name = "COUNTRY")
+    private String country;
+
+    @Column(name = "PROFILE_PHOTO")
+    private String profilePhoto;
+
+    @Column(name = "ACTIVE")
+    private Boolean active;
+
+    @Column(name = "CREATED_TIMESTAMP", nullable = false)
+    private Timestamp createdTimestamp;
+
+    @Column(name = "UPDATE_TIMESTAMP")
+    private Timestamp updateTimestamp;
+
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -107,70 +152,22 @@ public class UserAccount {
         this.profilePhoto = profilePhoto;
     }
 
-    public boolean isActive() {
+    public Boolean getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private int userId;
-
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
-    @Column(name = "id_number")
-    private String idNumber;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "mobile")
-    private String mobile;
-
-    @Column(name = "address_line1")
-    private String addressLine1;
-
-    @Column(name = "address_line2")
-    private String addressLine2;
-
-    @Column(name = "town")
-    private String town;
-
-    @Column(name = "postcode")
-    private String postcode;
-
-    @Column(name = "country")
-    private String country;
-
-    @Column(name = "profile_photo")
-    private String profilePhoto;
-
-    @Column(name = "active", columnDefinition = "boolean default false")
-    private boolean active;
-
-    @JsonIgnore
-    @Column(name = "CREATED_TIMESTAMP", nullable = false, updatable = false)
-    private Timestamp createdTimestamp;
-
-    @Column(name = "update_timestamp")
-    private Timestamp updateTimestamp;
     @PrePersist
     public void prePersist() {
-        if (this.createdTimestamp == null) {
-            this.createdTimestamp = Timestamp.valueOf(LocalDateTime.now());
+        if (createdTimestamp == null) {
+            createdTimestamp = Timestamp.valueOf(LocalDateTime.now());
         }
     }
 
-    public LocalDateTime getCreatedTimestamp() {
-        return createdTimestamp.toLocalDateTime();
-    }
+    // Getters and Setters
 }
+
+

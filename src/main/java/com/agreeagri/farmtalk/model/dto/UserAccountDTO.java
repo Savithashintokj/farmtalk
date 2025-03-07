@@ -1,15 +1,29 @@
 package com.agreeagri.farmtalk.model.dto;
 
 import lombok.Data;
-
+import java.sql.Timestamp;
 
 public class UserAccountDTO {
 
-    public int getUserId() {
+    private Long userId;
+    private String firstName;
+    private String lastName;
+    private String idNumber;
+    private String email;
+    private String mobile;
+    private String addressLine1;
+    private String addressLine2;
+    private String town;
+    private String postcode;
+    private String country;
+    private String profilePhoto;
+    private Boolean active;
+
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -100,20 +114,15 @@ public class UserAccountDTO {
     public void setProfilePhoto(String profilePhoto) {
         this.profilePhoto = profilePhoto;
     }
-    private int userId;
-    private String firstName;
-    private String lastName;
-    private String idNumber;
-    private String email;
-    private String mobile;
-    private String addressLine1;
-    private String addressLine2;
-    private String town;
-    private String postcode;
-    private String country;
-    private String profilePhoto;
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
 
-
-
+    // Getters and Setters
 }

@@ -2,30 +2,43 @@ package com.agreeagri.farmtalk.service;
 
 import com.agreeagri.farmtalk.model.dto.UserAccountDTO;
 import com.agreeagri.farmtalk.model.entity.UserAccount;
+import com.agreeagri.farmtalk.model.repository.OtpRepository;
 import com.agreeagri.farmtalk.model.repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.security.SecureRandom;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Optional;
+import com.agreeagri.farmtalk.model.entity.Otp;
 
 @Service
 public class UserAccountService {
+    private final SecureRandom random = new SecureRandom();
+
+    @Autowired
+    private OtpService otpService;
 
     @Autowired
     private UserAccountRepository userAccountRepository;
 
+
     // ✅ Create User Account (DTO as Request, Returns DTO)
-    @Transactional
+
     public UserAccountDTO createUserAccount(UserAccountDTO userAccountDTO) {
         UserAccount userAccount = convertToEntity(userAccountDTO);
         UserAccount savedUser = userAccountRepository.save(userAccount);
+        otpService.saveOtp(savedUser.getUserId());
         return convertToDTO(savedUser);
     }
 
     // ✅ Update User Account (DTO as Request, Converts to Entity)
-    @Transactional
-    public UserAccountDTO updateUserAccount(int userId, UserAccountDTO userAccountDTO) {
+
+    public UserAccountDTO updateUserAccount(Long userId, UserAccountDTO userAccountDTO) {
         Optional<UserAccount> existingUserOpt = userAccountRepository.findById(userId);
         if (existingUserOpt.isEmpty()) {
             throw new RuntimeException("User not found");
@@ -49,8 +62,8 @@ public class UserAccountService {
     }
 
     // ✅ Delete User Account
-    @Transactional
-    public void deleteUserAccount(int userId) {
+
+    public void deleteUserAccount(Long userId) {
         if (!userAccountRepository.existsById(userId)) {
             throw new RuntimeException("User not found");
         }
@@ -58,7 +71,7 @@ public class UserAccountService {
     }
 
     // ✅ Get User Account by ID
-    public Optional<UserAccountDTO> getUserAccount(int userId) {
+    public Optional<UserAccountDTO> getUserAccount(Long userId) {
         return userAccountRepository.findById(userId).map(this::convertToDTO);
     }
 

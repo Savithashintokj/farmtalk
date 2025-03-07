@@ -5,10 +5,12 @@ import com.agreeagri.farmtalk.model.entity.FarmPost;
 import com.agreeagri.farmtalk.model.entity.UserAccount;
 import com.agreeagri.farmtalk.model.repository.FarmPostRepository;
 import com.agreeagri.farmtalk.model.repository.UserAccountRepository;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +27,7 @@ public class FarmPostService {
 
     // ✅ Create Post (DTO Request, Converts to Entity)
     @Transactional
-    public FarmPostDTO createPost(FarmPostDTO farmPostDto) {
+    public FarmPostDTO createPost(FarmPostDTO farmPostDto)  {
         UserAccount user = userAccountRepository.findById(farmPostDto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -65,12 +67,13 @@ public class FarmPostService {
     }
 
     // ✅ Get Post by ID
+    @SneakyThrows
     public Optional<FarmPostDTO> getPost(UUID postId) {
         return farmPostRepository.findById(postId).map(this::convertToDTO);
     }
 
     // ✅ Get All Posts
-    public List<FarmPostDTO> getAllPosts() {
+    public List<FarmPostDTO> getAllPosts()   {
         List<FarmPost> posts = farmPostRepository.findAll();
         List<FarmPostDTO> postDTOs = new ArrayList<>();
         for (FarmPost post : posts) {
@@ -80,13 +83,15 @@ public class FarmPostService {
     }
 
     // ✅ Convert Entity to DTO
-    private FarmPostDTO convertToDTO(FarmPost farmPost) {
+    private FarmPostDTO convertToDTO(FarmPost farmPost)   {
         FarmPostDTO dto = new FarmPostDTO();
-        dto.setPostId(farmPost.getPostId());
-        dto.setUserId(farmPost.getUserAccount().getUserId());
+        UUID postId = farmPost.getPostId();
+        dto.setPostId(postId);
+        Long userId = farmPost.getUserAccount().getUserId();
+        dto.setUserId(userId);
         dto.setTitle(farmPost.getTitle());
         dto.setDetails(farmPost.getDetails());
-        dto.setPhoto(farmPost.getPhoto());
+       // dto.setPhoto();
         dto.setLikesCount(farmPost.getLikesCount());
         return dto;
     }

@@ -1,0 +1,2 @@
+ALTER TABLE useraccount
+ALTER COLUMN created_timestamp SET DEFAULT CURRENT_TIMESTAMP;

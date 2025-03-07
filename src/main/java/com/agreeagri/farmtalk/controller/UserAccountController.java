@@ -25,7 +25,7 @@ public class UserAccountController {
     // ✅ Update User
     @PutMapping("/{userId}")
     public ResponseEntity<UserAccountDTO> updateUser(
-            @PathVariable int userId,
+            @PathVariable Long userId,
             @RequestBody UserAccountDTO userAccountDTO) {
         UserAccountDTO updatedUser = userAccountService.updateUserAccount(userId, userAccountDTO);
         return ResponseEntity.ok(updatedUser);
@@ -33,15 +33,16 @@ public class UserAccountController {
 
     // ✅ Delete User
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable int userId) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
         userAccountService.deleteUserAccount(userId);
         return ResponseEntity.noContent().build();
     }
 
     // ✅ Get User by ID
     @GetMapping("/{userId}")
-    public ResponseEntity<UserAccountDTO> getUserById(@PathVariable int userId) {
+    public ResponseEntity<UserAccountDTO> getUserById(@PathVariable Long userId) {
         Optional<UserAccountDTO> user = userAccountService.getUserAccount(userId);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
 }
